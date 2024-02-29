@@ -1,0 +1,26 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [7]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Autonomous/SendableChooser[0]": "String Chooser",
+      "/Shuffleboard/Drivetrain/DriveSubsystem": "Subsystem"
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  }
+}
