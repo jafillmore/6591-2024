@@ -174,7 +174,7 @@ public final class Constants {
     public static final int kSliderCANID = 14;
 
     public static final double kShootSpeed = 0.75;
-    public static final double kBloopSpeed = 0.30;
+    public static final double kBloopSpeed = 0.15;
 
     public static final IdleMode kShooterMode = IdleMode.kCoast;
     public static final IdleMode kSliderMode = IdleMode.kBrake;
