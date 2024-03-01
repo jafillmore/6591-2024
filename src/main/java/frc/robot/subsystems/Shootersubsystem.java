@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
@@ -76,5 +77,16 @@ public class Shootersubsystem extends SubsystemBase {
     SmartDashboard.putNumber(   "Slider Position", sliderPosition);
   };
 
+  public void zeroSlider(){
+    m_SliderSparkMax.set(0.15);
+    Timer.delay(4);
+    m_SliderSparkMax.set(0.0);
+    m_sliderEncoder.setPosition(0);
+  }
   
+  public void shooterStop(){
+    m_SliderSparkMax.set(0.0);
+    m_ShooterSparkMax.set(0.0);
+  }
+
 }

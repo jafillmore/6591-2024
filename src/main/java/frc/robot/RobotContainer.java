@@ -49,7 +49,9 @@ public class RobotContainer {
 
   UsbCamera camera1;
   UsbCamera camera2;
-  NetworkTableEntry cameraSelection;
+  VideoSink server;
+
+
   
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
@@ -82,7 +84,7 @@ public class RobotContainer {
     
     camera1 = CameraServer.startAutomaticCapture(0);
     camera2 = CameraServer.startAutomaticCapture(1);
-    cameraSelection = NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection");
+    server = CameraServer.getServer();
     
     // Run configuration options for Pigeon 2 navigation module
     m_robotDrive.pidgeyConfig();
@@ -223,10 +225,31 @@ public class RobotContainer {
             () -> m_shooter.setSlider(ShooterConstants.kSliderLoadPsn),
             m_shooter));
 
+    new JoystickButton(m_buttonboard, OIConstants.kSliderResetButton)
+        .onTrue(new InstantCommand(
+            () -> m_shooter.zeroSlider(),
+        m_shooter));
+
+    new JoystickButton(m_buttonboard, OIConstants.kStopShooterButton)
+        .onTrue(new InstantCommand(
+            () -> m_shooter.shooterStop(),
+        m_shooter));
+    
+    new JoystickButton(m_buttonboard, OIConstants.kStopIntakeButton)
+        .onTrue(new InstantCommand(
+            () -> m_intake.intakeStop(),
+        m_intake));
+
     //  switch cameras
 
-    new JoystickButton(m_leftJoystick, OIConstants.kSwitchCameraButton)
-        .onTrue (useCamera2());
+    if (m_leftJoystick.getTriggerPressed()) {
+        System.out.println("Setting camera 2");
+        server.setSource(camera2);
+    } else if (m_leftJoystick.getTriggerReleased()) {
+        System.out.println("Setting camera 1");
+        server.setSource(camera1);
+    }
+}
 
   
     
@@ -243,20 +266,8 @@ public class RobotContainer {
             );
     
     */
-  }
 
-  private void useCamera1() {
-        System.out.println("Setting camera 2");
-        cameraSelection.setString(camera2.getName());
-        SmartDashboard.putString("Camera", "Camera 2");
-  }
 
-  private void useCamera2() {
-        System.out.println("Setting camera 1");
-        cameraSelection.setString(camera1.getName());
-        SmartDashboard.putString("Camera", "Camera 1");
-
-  }
   
   private void configureDashboard() {
         

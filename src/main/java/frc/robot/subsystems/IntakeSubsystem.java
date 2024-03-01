@@ -116,6 +116,15 @@ public class IntakeSubsystem extends SubsystemBase {
     m_gripperSparkMax.set(0);
     m_gripperSparkMax.burnFlash();
   }
+
+  public void intakeStop(){
+    m_intakeSparkMaxFront.set(0.0);
+    m_intakeSparkMaxLeft.set(0.0);
+    m_intakeSparkMaxRear.set(0.0);
+    m_intakeSparkMaxRight.set(0.0);
+    m_gripperSparkMax.set(0.0);
+  }
+
   /*
   public void grab(){
         m_gripperPIDController.setReference(0, CANSparkMax.ControlType.kPosition);

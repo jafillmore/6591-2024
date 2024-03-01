@@ -71,12 +71,12 @@ public final class Constants {
   }
 
   public static final class PneumaticsConstants {
-    public static final int kArmSolenoidUp = 0;
-    public static final int kArmSolenoidDown = 1; 
+    public static final int kArmSolenoidUp = 7;
+    public static final int kArmSolenoidDown = 0; 
     public static final double kCylinderDelay = 1000;
     
     //Pressure Transducer Stuff
-    public static final int kPressureTransducerPort = 1;
+    public static final int kPressureTransducerPort = 0;
     public static final double kScale = 250;
     public static final double kOffset = -25;
 
@@ -178,22 +178,22 @@ public final class Constants {
 
     public static final IdleMode kShooterMode = IdleMode.kCoast;
     public static final IdleMode kSliderMode = IdleMode.kBrake;
-    public static final boolean kShooterIsReversed = true;
-    public static final boolean kSliderIsReversed = true;
+    public static final boolean kShooterIsReversed = false;
+    public static final boolean kSliderIsReversed = false;
     
-    public static final double kSliderP =0.8;
+    public static final double kSliderP =0.70;
     public static final double kSliderI = 1.0e-5;
-    public static final double kSliderD = 1.0e0-4; 
+    public static final double kSliderD = 1.0e0-3; 
     public static final double kSliderFF = 0;
-    public static final double kSliderMinOutput = -1.0;
-    public static final double kSliderMaxOutput = 1.0;
+    public static final double kSliderMinOutput = -0.10;
+    public static final double kSliderMaxOutput = 0.10;
  
     public static final double kSliderEncoderPositionFactor = 360.0;  // 360 deg
-    public static final double kSliderEncoderVelocityFactor = 60.0;  //  deg/sec
+    public static final double kSliderEncoderVelocityFactor = 60.0;  //  Sdeg/sec
 
-    public static final double kSliderShootPsn = 45.2; //position for slider
-    public static final double kSliderParkPsn = 0.40;  //position for slider
-    public static final double kSliderLoadPsn = 3; // position for loading slider
+    public static final double kSliderShootPsn = 0; //position for slider
+    public static final double kSliderParkPsn = -10000;  //position for slider
+    public static final double kSliderLoadPsn = -34500; // position for loading slider
     //public static final double kFingerDelayTimer = 3000; 
 
 
@@ -254,6 +254,9 @@ public final class Constants {
     public static final int kParkButton = 13;
     public static final int kLoadButton = 15;
     public static final int kFingerResetButton = 16;
+    public static final int kSliderResetButton = 14;
+    public static final int kStopShooterButton = 20;
+    public static final int kStopIntakeButton = 19;
 
 
 
