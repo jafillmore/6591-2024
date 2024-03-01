@@ -6,7 +6,12 @@ package frc.robot;
 
 import java.util.Optional;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Joystick;
@@ -41,12 +46,17 @@ public class RobotContainer {
     
   Optional<Alliance> ally = DriverStation.getAlliance();
   private String alli = "None! (WTF?)";
+
+  UsbCamera camera1;
+  UsbCamera camera2;
+  NetworkTableEntry cameraSelection;
   
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final PneumaticSubsystem m_pneumatics = new PneumaticSubsystem();
   private final Shootersubsystem m_shooter = new Shootersubsystem();
+  public boolean cam2 = false;
     
   // The driver's controllers
   Joystick m_leftJoystick = new Joystick(OIConstants.kLeftControllerPort);
@@ -69,6 +79,10 @@ public class RobotContainer {
   * The container for the robot. Contains subsystems, OI devices, and commands.
   */
   public RobotContainer() {
+    
+    camera1 = CameraServer.startAutomaticCapture(0);
+    camera2 = CameraServer.startAutomaticCapture(1);
+    cameraSelection = NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection");
     
     // Run configuration options for Pigeon 2 navigation module
     m_robotDrive.pidgeyConfig();
@@ -209,6 +223,15 @@ public class RobotContainer {
             () -> m_shooter.setSlider(ShooterConstants.kSliderLoadPsn),
             m_shooter));
 
+    //  switch cameras
+
+    new JoystickButton(m_leftJoystick, OIConstants.kSwitchCameraButton)
+        .onTrue (useCamera2());
+
+  
+    
+
+
 
 
     /*           
@@ -222,6 +245,18 @@ public class RobotContainer {
     */
   }
 
+  private void useCamera1() {
+        System.out.println("Setting camera 2");
+        cameraSelection.setString(camera2.getName());
+        SmartDashboard.putString("Camera", "Camera 2");
+  }
+
+  private void useCamera2() {
+        System.out.println("Setting camera 1");
+        cameraSelection.setString(camera1.getName());
+        SmartDashboard.putString("Camera", "Camera 1");
+
+  }
   
   private void configureDashboard() {
         
