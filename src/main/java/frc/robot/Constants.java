@@ -152,7 +152,7 @@ public final class Constants {
     public static final IdleMode kGripperMode = IdleMode.kBrake;
     public static final boolean kGripperIsReversed = false;
 
-    public static final double kGripperP =0.8;
+    public static final double kGripperP =0.9;
     public static final double kGripperI = 1.0e-5;
     public static final double kGripperD = 1.0e0-4; 
     public static final double kGripperFF = 0;
@@ -162,8 +162,8 @@ public final class Constants {
     public static final double kGripperEncoderPositionFactor = 360.0;  // 360 deg
     public static final double kGripperEncoderVelocityFactor = 60.0;  //  deg/sec
 
-    public static final double kFingersOutAngle = 90.8; //Angle for the rotating plate
-    public static final double kFingersInAngle = 0.40;  //Angle for the rotating plate
+    public static final double kFingersOutAngle = 182; //Angle for the rotating plate
+    public static final double kFingersInAngle = 90.40;  //Angle for the rotating plate
     public static final double kGrab = 3;
     public static final double kFingerDelayTimer = 3000; 
 
@@ -175,7 +175,7 @@ public final class Constants {
 
     public static final double kNearShotSpeed = 0.6;
     public static final double kFarShotSpeed = 1.0;
-    public static final double kBloopSpeed = 0.10;
+    public static final double kBloopSpeed = 0.33;
 
     public static final IdleMode kShooterMode = IdleMode.kCoast;
     public static final IdleMode kSliderMode = IdleMode.kBrake;
@@ -186,15 +186,15 @@ public final class Constants {
     public static final double kSliderI = 1.0e-5;
     public static final double kSliderD = 1.0e0-3; 
     public static final double kSliderFF = 0;
-    public static final double kSliderMinOutput = -0.10;
-    public static final double kSliderMaxOutput = 0.10;
+    public static final double kSliderMinOutput = -0.12;
+    public static final double kSliderMaxOutput = 0.12;
  
     public static final double kSliderEncoderPositionFactor = 360.0;  // 360 deg
     public static final double kSliderEncoderVelocityFactor = 60.0;  //  Sdeg/sec
 
     public static final double kSliderShootPsn = 0; //position for slider
     public static final double kSliderParkPsn = -5000;  //position for slider
-    public static final double kSliderLoadPsn = -34500; // position for loading slider
+    public static final double kSliderLoadPsn = -34550; // position for loading slider
     //public static final double kFingerDelayTimer = 3000; 
 
 

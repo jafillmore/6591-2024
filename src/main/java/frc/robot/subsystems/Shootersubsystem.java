@@ -71,18 +71,18 @@ public class Shootersubsystem extends SubsystemBase {
     SmartDashboard.putNumber(   "Slider Position", sliderPosition);
   };
 
-  public void shoot(double shooterPower, double sliderPosition) {
+  public void shoot(double shooterPower    /*, double sliderPosition*/) {
     m_ShooterSparkMax.set(shooterPower);
-    m_sliderPIDController.setReference(sliderPosition, CANSparkMax.ControlType.kPosition);
-    SmartDashboard.putNumber(   "Slider Position", sliderPosition);
+    //m_sliderPIDController.setReference(sliderPosition, CANSparkMax.ControlType.kPosition);
+    //SmartDashboard.putNumber(   "Slider Position", sliderPosition);
     zeroSlider();
-    Timer.delay(2);
-    m_sliderPIDController.setReference(ShooterConstants.kSliderParkPsn, CANSparkMax.ControlType.kPosition);
+    //Timer.delay(10);
+    //m_sliderPIDController.setReference(ShooterConstants.kSliderParkPsn, CANSparkMax.ControlType.kPosition);
   };
 
   public void zeroSlider(){
-    m_SliderSparkMax.set(0.15);
-    Timer.delay(4);
+    m_SliderSparkMax.set(0.16);
+    Timer.delay(3);
     m_SliderSparkMax.set(0.0);
     m_sliderEncoder.setPosition(0);
   }

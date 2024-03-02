@@ -110,8 +110,8 @@ public class IntakeSubsystem extends SubsystemBase {
     m_gripperSparkMax.set(0.75);
     Timer.delay(.5);
     m_gripperSparkMax.set(-0.75);
-    Timer.delay(1);
-    newOffSet = m_gripperEncoder.getPosition();
+    Timer.delay(2);
+    newOffSet = m_gripperEncoder.getPosition()-90;
     m_gripperEncoder.setZeroOffset(newOffSet);
     m_gripperSparkMax.set(0);
     m_gripperSparkMax.burnFlash();

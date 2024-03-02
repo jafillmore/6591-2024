@@ -104,12 +104,10 @@ public final class Autos {
     // Run path following command, then stop at the end.
     return  
         new InstantCommand (
-            ()-> shooter.shoot(ShooterConstants.kNearShotSpeed, ShooterConstants.kSliderShootPsn),
+            ()-> shooter.shoot(ShooterConstants.kNearShotSpeed  /*, ShooterConstants.kSliderShootPsn*/),
             shooter)
        .andThen(new InstantCommand (
             ()-> intake.zeroFingers(), intake))
-        .andThen(
-            new WaitCommand(1))
         .andThen(new InstantCommand (
             ()-> intake.setIntake(IntakeConstants.kIntakeSpeed), intake))
         .andThen(
@@ -118,18 +116,37 @@ public final class Autos {
             () -> intake.setGripper(IntakeConstants.kFingersInAngle), intake))
         .andThen(new InstantCommand (
             () -> pneumatics.setArmDown(), pneumatics))
+        .andThen(
+            new WaitCommand(1))
         .andThen(new InstantCommand (
             () -> intake.setGripper(IntakeConstants.kFingersOutAngle), intake))
         .andThen(
-            new WaitCommand(5))
+            new WaitCommand(3))
         .andThen(new InstantCommand (
             () -> pneumatics.setArmUp(), pneumatics))
         .andThen(
-            red1Trajectory2ControllerCommand)
-        .andThen(() -> drive.drive(0, 0, 0, false, false))
+            new WaitCommand(2))
+        .andThen(new InstantCommand (
+            ()-> shooter.setSlider(ShooterConstants.kSliderLoadPsn),
+            shooter))
+        .andThen(
+            new WaitCommand(12))
+        .andThen(new InstantCommand (
+            () -> intake.setGripper(IntakeConstants.kFingersInAngle), intake))
+        .andThen(new InstantCommand (
+            () -> pneumatics.setArmDown(), pneumatics))
+        .andThen(
+            new WaitCommand(0.75))
+        .andThen(new InstantCommand (
+            () -> pneumatics.setArmUp(), pneumatics))
+            .andThen(
+            new WaitCommand(5))
+        //    .andThen(
+        //    red1Trajectory2ControllerCommand)
+        //.andThen(() -> drive.drive(0, 0, 0, false, false))
         .andThen(
         new InstantCommand (
-            ()-> shooter.shoot(ShooterConstants.kNearShotSpeed, ShooterConstants.kSliderShootPsn),
+            ()-> shooter.shoot(ShooterConstants.kBloopSpeed /* , ShooterConstants.kSliderShootPsn*/),
             shooter))
         
         
