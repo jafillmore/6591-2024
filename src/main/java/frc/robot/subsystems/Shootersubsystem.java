@@ -75,6 +75,9 @@ public class Shootersubsystem extends SubsystemBase {
     m_ShooterSparkMax.set(shooterPower);
     m_sliderPIDController.setReference(sliderPosition, CANSparkMax.ControlType.kPosition);
     SmartDashboard.putNumber(   "Slider Position", sliderPosition);
+    zeroSlider();
+    Timer.delay(2);
+    m_sliderPIDController.setReference(ShooterConstants.kSliderParkPsn, CANSparkMax.ControlType.kPosition);
   };
 
   public void zeroSlider(){

@@ -10,8 +10,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,17 +22,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.Autos;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.Shootersubsystem;
-import frc.robot.Constants.ShooterConstants;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -69,7 +68,7 @@ public class RobotContainer {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // Define Autonomous Commands
-    private final Command m_redAuto1 = Autos.redAuto1(m_robotDrive);
+    private final Command m_redAuto1 = Autos.redAuto1(m_robotDrive, m_intake, m_pneumatics, m_shooter);
     private final Command m_redAuto2 = Autos.redAuto2(m_robotDrive);
     private final Command m_redAuto3 = Autos.redAuto3(m_robotDrive);
     private final Command m_blueAuto1 = Autos.blueAuto1(m_robotDrive);
@@ -205,9 +204,9 @@ public class RobotContainer {
             () -> m_intake.zeroFingers(),
         m_intake));
     
-    new JoystickButton(m_buttonboard, OIConstants.kShootButton)
+    new JoystickButton(m_buttonboard, OIConstants.kFarShotButton)
         .onTrue(new InstantCommand(
-            () -> m_shooter.shoot(ShooterConstants.kShootSpeed, ShooterConstants.kSliderShootPsn),
+            () -> m_shooter.shoot(ShooterConstants.kFarShotSpeed, ShooterConstants.kSliderShootPsn),
             m_shooter)); 
     
     new JoystickButton(m_buttonboard, OIConstants.kbloopButton)
@@ -240,32 +239,58 @@ public class RobotContainer {
             () -> m_intake.intakeStop(),
         m_intake));
 
+
+    new JoystickButton(m_buttonboard, OIConstants.kGrabButton)
+        .onTrue(
+                new InstantCommand(
+                    () -> m_intake.zeroFingers(),
+                    m_intake)
+            .andThen(
+                new WaitCommand(.25))
+            .andThen(
+                new InstantCommand(
+                    () -> m_intake.setGripper(IntakeConstants.kFingersInAngle),
+                    m_intake))
+            .andThen(
+                new InstantCommand(
+                    () -> m_pneumatics.setArmDown(),
+                    m_pneumatics))
+            .andThen(
+                new InstantCommand(
+                    () -> m_intake.setGripper(IntakeConstants.kFingersOutAngle),
+                    m_intake))
+            .andThen(
+                new WaitCommand(1))
+            .andThen(new InstantCommand(
+                    () -> m_pneumatics.setArmUp(),
+                    m_pneumatics))
+            );
+
+         
+    
     //  switch cameras
 
-    if (m_leftJoystick.getTriggerPressed()) {
+    if (m_leftJoystick.getRawButtonPressed(OIConstants.kSwitchCameraButton)) {
         System.out.println("Setting camera 2");
         server.setSource(camera2);
-    } else if (m_leftJoystick.getTriggerReleased()) {
+    } else if (m_leftJoystick.getRawButtonReleased(OIConstants.kSwitchCameraButton)) {
         System.out.println("Setting camera 1");
         server.setSource(camera1);
     }
 }
 
   
+ 
+
+
+
     
 
+               
 
-
-
-    /*           
-    new JoystickButton(m_buttonboard, OIConstants.kGrabButton)
-        .onTrue(
-            new InstantCommand(() -> m_intake.setGripper(IntakeConstants.kFingersInAngle), m_intake),
-            new InstantCommand(() -> m_pneumatics.setArmDown(), m_pneumatics)
             
-            );
     
-    */
+    
 
 
   
@@ -277,7 +302,7 @@ public class RobotContainer {
     }
   
     SmartDashboard.putString(   "Alliance", alli);
-    SmartDashboard.putNumber( "Air Pressure", m_pneumatics.m_pressureTransducer.get());     
+        
     
     
     // Put the chooser on the dashboard

@@ -162,7 +162,7 @@ public final class Constants {
     public static final double kGripperEncoderPositionFactor = 360.0;  // 360 deg
     public static final double kGripperEncoderVelocityFactor = 60.0;  //  deg/sec
 
-    public static final double kFingersOutAngle = 90.2; //Angle for the rotating plate
+    public static final double kFingersOutAngle = 90.8; //Angle for the rotating plate
     public static final double kFingersInAngle = 0.40;  //Angle for the rotating plate
     public static final double kGrab = 3;
     public static final double kFingerDelayTimer = 3000; 
@@ -173,8 +173,9 @@ public final class Constants {
     public static final int kShooterCANID = 15;
     public static final int kSliderCANID = 14;
 
-    public static final double kShootSpeed = 0.75;
-    public static final double kBloopSpeed = 0.15;
+    public static final double kNearShotSpeed = 0.6;
+    public static final double kFarShotSpeed = 1.0;
+    public static final double kBloopSpeed = 0.10;
 
     public static final IdleMode kShooterMode = IdleMode.kCoast;
     public static final IdleMode kSliderMode = IdleMode.kBrake;
@@ -192,7 +193,7 @@ public final class Constants {
     public static final double kSliderEncoderVelocityFactor = 60.0;  //  Sdeg/sec
 
     public static final double kSliderShootPsn = 0; //position for slider
-    public static final double kSliderParkPsn = -10000;  //position for slider
+    public static final double kSliderParkPsn = -5000;  //position for slider
     public static final double kSliderLoadPsn = -34500; // position for loading slider
     //public static final double kFingerDelayTimer = 3000; 
 
@@ -200,8 +201,8 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 3;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+    public static final double kMaxSpeedMetersPerSecond = 1;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
@@ -249,7 +250,7 @@ public final class Constants {
     public static final int kFingersInButton = 4;
     public static final int kGrabButton = 6;
     public static final int kDropButton = 7;
-    public static final int kShootButton = 11;
+    public static final int kFarShotButton = 11;
     public static final int kbloopButton = 12;
     public static final int kParkButton = 13;
     public static final int kLoadButton = 15;

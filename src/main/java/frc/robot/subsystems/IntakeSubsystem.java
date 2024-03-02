@@ -88,8 +88,8 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber(   "Gripper Actual Angle", m_gripperEncoder.getPosition());
-    //SmartDashboard.putNumber(   "Gripper Zero Offset", m_gripperEncoder.getZeroOffset());
+    SmartDashboard.putNumber(   "Gripper Actual Angle", m_gripperEncoder.getPosition());
+    SmartDashboard.putNumber(   "Gripper Zero Offset", m_gripperEncoder.getZeroOffset());
   }
 
   public void setIntake (double intakePower) {

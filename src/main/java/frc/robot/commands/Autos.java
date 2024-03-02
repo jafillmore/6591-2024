@@ -19,11 +19,20 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.PneumaticsConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.Shootersubsystem;
 
 /** Container for auto command factories. */
 public final class Autos {
@@ -32,22 +41,33 @@ public final class Autos {
   //////////  RED Auto 1 ///////////////
   //////////////////////////////////////
 
-  public static Command redAuto1(DriveSubsystem drive) {
-  // Create config for trajectory
+  public static Command redAuto1(DriveSubsystem drive, IntakeSubsystem intake, PneumaticSubsystem pneumatics, Shootersubsystem shooter) {
+
+    
+    // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(
         AutoConstants.kMaxSpeedMetersPerSecond,
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(DriveConstants.kDriveKinematics);
 
-    // An example trajectory to follow. All units in meters.
+    // Trajectory straight out to grab a note...
     Trajectory red1Trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
+        new Pose2d(2.5, 0, new Rotation2d(0)),
+        config);
+
+    Trajectory red1Trajectory2 = TrajectoryGenerator.generateTrajectory(
+        // Start at 2.5m out facing the +X direction
+        new Pose2d(0, 0, new Rotation2d(0)),
+        // Pass through these two interior waypoints, making an 's' curve path
+        List.of(new Translation2d(-1, 0), new Translation2d(-2, 0)),
+        // End 3 meters straight ahead of where we started, facing forward
+        new Pose2d(-2.5, 0, new Rotation2d(0)),
         config);
 
     var thetaController = new ProfiledPIDController(
@@ -66,12 +86,59 @@ public final class Autos {
         drive::setModuleStates,
         drive);
 
+    SwerveControllerCommand red1Trajectory2ControllerCommand = new SwerveControllerCommand(
+        red1Trajectory2,
+        drive::getPose, // Functional interface to feed supplier
+        DriveConstants.kDriveKinematics,
+
+        // Position controllers
+        new PIDController(AutoConstants.kPXController, 0, 0),
+        new PIDController(AutoConstants.kPYController, 0, 0),
+        thetaController,
+        drive::setModuleStates,
+        drive);
+
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(red1Trajectory1.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return red1Trajectory1ControllerCommand.andThen(() -> drive.drive(0, 0, 0, false, false));
-  }
+    return  
+        new InstantCommand (
+            ()-> shooter.shoot(ShooterConstants.kNearShotSpeed, ShooterConstants.kSliderShootPsn),
+            shooter)
+       .andThen(new InstantCommand (
+            ()-> intake.zeroFingers(), intake))
+        .andThen(
+            new WaitCommand(1))
+        .andThen(new InstantCommand (
+            ()-> intake.setIntake(IntakeConstants.kIntakeSpeed), intake))
+        .andThen(
+           red1Trajectory1ControllerCommand)
+        .andThen(new InstantCommand (
+            () -> intake.setGripper(IntakeConstants.kFingersInAngle), intake))
+        .andThen(new InstantCommand (
+            () -> pneumatics.setArmDown(), pneumatics))
+        .andThen(new InstantCommand (
+            () -> intake.setGripper(IntakeConstants.kFingersOutAngle), intake))
+        .andThen(
+            new WaitCommand(5))
+        .andThen(new InstantCommand (
+            () -> pneumatics.setArmUp(), pneumatics))
+        .andThen(
+            red1Trajectory2ControllerCommand)
+        .andThen(() -> drive.drive(0, 0, 0, false, false))
+        .andThen(
+        new InstantCommand (
+            ()-> shooter.shoot(ShooterConstants.kNearShotSpeed, ShooterConstants.kSliderShootPsn),
+            shooter))
+        
+        
+        ;
+
+
+
+
+    }
 
   //////////////////////////////////////
   //////////  RED Auto 2 ///////////////
