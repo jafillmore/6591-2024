@@ -143,8 +143,8 @@ public final class Constants {
     public static final int kIntakeRightCANId = 10;
     public static final int kGripperCANId = 13;
 
-    public static final double kIntakeSpeed = 0.20;
-    public static final double kEjectSpeed = 0.20;
+    public static final double kIntakeSpeed = 0.40;
+    public static final double kEjectSpeed = 0.750;
 
     public static final IdleMode kIntakeMode = IdleMode.kCoast;
     public static final boolean kIntakeIsReversed = true;
@@ -162,7 +162,7 @@ public final class Constants {
     public static final double kGripperEncoderPositionFactor = 360.0;  // 360 deg
     public static final double kGripperEncoderVelocityFactor = 60.0;  //  deg/sec
 
-    public static final double kFingersOutAngle = 182; //Angle for the rotating plate
+    public static final double kFingersOutAngle = 183; //Angle for the rotating plate
     public static final double kFingersInAngle = 90.40;  //Angle for the rotating plate
     public static final double kGrab = 3;
     public static final double kFingerDelayTimer = 3000; 
@@ -173,9 +173,9 @@ public final class Constants {
     public static final int kShooterCANID = 15;
     public static final int kSliderCANID = 14;
 
-    public static final double kNearShotSpeed = 0.6;
+    public static final double kNearShotSpeed = 0.7;
     public static final double kFarShotSpeed = 1.0;
-    public static final double kBloopSpeed = 0.33;
+    public static final double kBloopSpeed = 0.31 ;
 
     public static final IdleMode kShooterMode = IdleMode.kCoast;
     public static final IdleMode kSliderMode = IdleMode.kBrake;
@@ -193,7 +193,7 @@ public final class Constants {
     public static final double kSliderEncoderVelocityFactor = 60.0;  //  Sdeg/sec
 
     public static final double kSliderShootPsn = 0; //position for slider
-    public static final double kSliderParkPsn = -5000;  //position for slider
+    public static final double kSliderParkPsn = -7000;  //position for slider
     public static final double kSliderLoadPsn = -34550; // position for loading slider
     //public static final double kFingerDelayTimer = 3000; 
 
@@ -232,7 +232,7 @@ public final class Constants {
     public static final int kSwitchCameraButton =1; //Left Trigger to switch between two cameras
     public static final int kSetXButton = 4; // Need to decide which stick and button we should use...
     public static final int kGyroRestButton = 5;  // Need to decide which stick and button we should use...
-    public static final int kdriveDebugDataButton = 10; // maybe move to button board?
+    public static final int kdriveDebugDataButton = 8; // maybe move to button board?
 
 
 

@@ -71,7 +71,7 @@ public class RobotContainer {
     private final Command m_redAuto1 = Autos.redAuto1(m_robotDrive, m_intake, m_pneumatics, m_shooter);
     private final Command m_redAuto2 = Autos.redAuto2(m_robotDrive);
     private final Command m_redAuto3 = Autos.redAuto3(m_robotDrive);
-    private final Command m_blueAuto1 = Autos.blueAuto1(m_robotDrive);
+    private final Command m_blueAuto1 = Autos.blueAuto1(m_robotDrive, m_intake, m_pneumatics, m_shooter);
     private final Command m_blueAuto2 = Autos.blueAuto2(m_robotDrive);
     private final Command m_blueAuto3 = Autos.blueAuto3(m_robotDrive);
 
@@ -140,7 +140,7 @@ public class RobotContainer {
             m_robotDrive));
 
     //  Zero the gyro to prevent drift
-    new JoystickButton(m_rightJoystick, OIConstants.kGyroRestButton)
+    new JoystickButton(m_leftJoystick, OIConstants.kGyroRestButton)
         .debounce(0.1)   
         .whileTrue(new InstantCommand(
             () -> m_robotDrive.zeroHeading(),
@@ -206,7 +206,7 @@ public class RobotContainer {
     
     new JoystickButton(m_buttonboard, OIConstants.kFarShotButton)
         .onTrue(new InstantCommand(
-            () -> m_shooter.shoot(ShooterConstants.kFarShotSpeed  /*, ShooterConstants.kSliderShootPsn*/),
+            () -> m_shooter.shoot(ShooterConstants.kNearShotSpeed  /*, ShooterConstants.kSliderShootPsn*/),
             m_shooter)); 
     
     new JoystickButton(m_buttonboard, OIConstants.kbloopButton)

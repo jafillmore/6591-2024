@@ -174,7 +174,7 @@ public final class Autos {
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
         // End 3 meters straight ahead of where we started, facing forward
         new Pose2d(3, 0, new Rotation2d(0)),
         config);
@@ -252,22 +252,33 @@ public final class Autos {
   //////////  BLUE Auto 1 ///////////////
   //////////////////////////////////////
 
-  public static Command blueAuto1(DriveSubsystem drive) {
-  // Create config for trajectory
+  public static Command blueAuto1(DriveSubsystem drive, IntakeSubsystem intake, PneumaticSubsystem pneumatics, Shootersubsystem shooter) {
+
+    
+    // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(
         AutoConstants.kMaxSpeedMetersPerSecond,
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(DriveConstants.kDriveKinematics);
 
-    // An example trajectory to follow. All units in meters.
+    // Trajectory straight out to grab a note...
     Trajectory blue1Trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
+        new Pose2d(2.5, 0, new Rotation2d(0)),
+        config);
+
+    Trajectory blue1Trajectory2 = TrajectoryGenerator.generateTrajectory(
+        // Start at 2.5m out facing the +X direction
+        new Pose2d(0, 0, new Rotation2d(0)),
+        // Pass through these two interior waypoints, making an 's' curve path
+        List.of(new Translation2d(-1, 0), new Translation2d(-2, 0)),
+        // End 3 meters straight ahead of where we started, facing forward
+        new Pose2d(-2.5, 0, new Rotation2d(0)),
         config);
 
     var thetaController = new ProfiledPIDController(
@@ -286,13 +297,78 @@ public final class Autos {
         drive::setModuleStates,
         drive);
 
+    SwerveControllerCommand blue1Trajectory2ControllerCommand = new SwerveControllerCommand(
+        blue1Trajectory2,
+        drive::getPose, // Functional interface to feed supplier
+        DriveConstants.kDriveKinematics,
+
+        // Position controllers
+        new PIDController(AutoConstants.kPXController, 0, 0),
+        new PIDController(AutoConstants.kPYController, 0, 0),
+        thetaController,
+        drive::setModuleStates,
+        drive);
+
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(blue1Trajectory1.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return blue1Trajectory1ControllerCommand.andThen(() -> drive.drive(0, 0, 0, false, false));
-  }
+    return  
+        new InstantCommand (
+            ()-> shooter.shoot(ShooterConstants.kNearShotSpeed  /*, ShooterConstants.kSliderShootPsn*/),
+            shooter)
+       .andThen(new InstantCommand (
+            ()-> intake.zeroFingers(), intake))
+        .andThen(new InstantCommand (
+            ()-> intake.setIntake(IntakeConstants.kIntakeSpeed), intake))
+        .andThen(
+           blue1Trajectory1ControllerCommand)
+        .andThen(new InstantCommand (
+            () -> intake.setGripper(IntakeConstants.kFingersInAngle), intake))
+        .andThen(new InstantCommand (
+            () -> pneumatics.setArmDown(), pneumatics))
+        .andThen(
+            new WaitCommand(1))
+        .andThen(new InstantCommand (
+            () -> intake.setGripper(IntakeConstants.kFingersOutAngle), intake))
+        .andThen(
+            new WaitCommand(3))
+        .andThen(new InstantCommand (
+            () -> pneumatics.setArmUp(), pneumatics))
+        .andThen(
+            new WaitCommand(2))
+        .andThen(new InstantCommand (
+            ()-> shooter.setSlider(ShooterConstants.kSliderLoadPsn),
+            shooter))
+        .andThen(
+            new WaitCommand(12))
+        .andThen(new InstantCommand (
+            () -> intake.setGripper(IntakeConstants.kFingersInAngle), intake))
+        .andThen(new InstantCommand (
+            () -> pneumatics.setArmDown(), pneumatics))
+        .andThen(
+            new WaitCommand(0.75))
+        .andThen(new InstantCommand (
+            () -> pneumatics.setArmUp(), pneumatics))
+            .andThen(
+            new WaitCommand(5))
+        //    .andThen(
+        //    red1Trajectory2ControllerCommand)
+        //.andThen(() -> drive.drive(0, 0, 0, false, false))
+        .andThen(
+        new InstantCommand (
+            ()-> shooter.shoot(ShooterConstants.kBloopSpeed /* , ShooterConstants.kSliderShootPsn*/),
+            shooter))
+        
+        
+        ;
 
+
+
+
+    }
+
+ 
   //////////////////////////////////////
   //////////  BLUE Auto 2 ///////////////
   //////////////////////////////////////
@@ -310,9 +386,9 @@ public final class Autos {
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        List.of(new Translation2d(.25, 0), new Translation2d(.75, 0)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
+        new Pose2d(2.0, 0, new Rotation2d(0)),
         config);
 
     var thetaController = new ProfiledPIDController(
@@ -382,6 +458,7 @@ public final class Autos {
     // Run path following command, then stop at the end.
     return blue3Trajectory1ControllerCommand.andThen(() -> drive.drive(0, 0, 0, false, false));
   }
+
 
 String trajectoryJSON = "\"C:\\Users\\Joel\\Documents\\FRC\\2024\\Code\\PathWeaver\\output\\output\\Unnamed.wpilib.json\"";
 Trajectory trajectory = new Trajectory();
