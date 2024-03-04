@@ -155,7 +155,7 @@ public final class Constants {
     public static final double kGripperP =0.9;
     public static final double kGripperI = 1.0e-5;
     public static final double kGripperD = 1.0e0-4; 
-    public static final double kGripperFF = 0;
+    public static final double kGripperFF = 0;  // Consider adding Feed-Forward to help hold the notes in place
     public static final double kGripperMinOutput = -1.0;
     public static final double kGripperMaxOutput = 1.0;
 
