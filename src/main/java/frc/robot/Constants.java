@@ -155,7 +155,7 @@ public final class Constants {
     public static final double kGripperP =0.9;
     public static final double kGripperI = 1.0e-5;
     public static final double kGripperD = 1.0e0-4; 
-    public static final double kGripperFF = 0;  // Consider adding Feed-Forward to help hold the notes in place
+    public static final double kGripperFF = 15;  // Consider adding Feed-Forward to help hold the notes in place
     public static final double kGripperMinOutput = -1.0;
     public static final double kGripperMaxOutput = 1.0;
 
@@ -164,7 +164,6 @@ public final class Constants {
 
     public static final double kFingersOutAngle = 183; //Angle for the rotating plate
     public static final double kFingersInAngle = 90.40;  //Angle for the rotating plate
-    public static final double kGrab = 3;
     public static final double kFingerDelayTimer = 3000; 
 
   }
@@ -175,7 +174,8 @@ public final class Constants {
 
     public static final double kNearShotSpeed = 0.7;
     public static final double kFarShotSpeed = 1.0;
-    public static final double kBloopSpeed = 0.31 ;
+    public static final double kBloopSpeed = 0.31;
+    public static final double kintakeShooterSpeed = -0.35;
 
     public static final IdleMode kShooterMode = IdleMode.kCoast;
     public static final IdleMode kSliderMode = IdleMode.kBrake;
@@ -258,7 +258,7 @@ public final class Constants {
     public static final int kSliderResetButton = 14;
     public static final int kStopShooterButton = 20;
     public static final int kStopIntakeButton = 19;
-
+    public static final int kIntakeShooterButton = 17;
 
 
 

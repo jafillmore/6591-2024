@@ -350,15 +350,16 @@ public final class Autos {
             new WaitCommand(0.75))
         .andThen(new InstantCommand (
             () -> pneumatics.setArmUp(), pneumatics))
-            .andThen(
-            new WaitCommand(5))
-        //    .andThen(
-        //    red1Trajectory2ControllerCommand)
-        //.andThen(() -> drive.drive(0, 0, 0, false, false))
         .andThen(
-        new InstantCommand (
-            ()-> shooter.shoot(ShooterConstants.kBloopSpeed /* , ShooterConstants.kSliderShootPsn*/),
-            shooter))
+            new WaitCommand(5))
+        .andThen(
+            blue1Trajectory2ControllerCommand)
+        .andThen(
+            () -> drive.drive(0, 0, 0, false, false))
+        .andThen(
+            new InstantCommand (
+                ()-> shooter.shoot(ShooterConstants.kBloopSpeed /* , ShooterConstants.kSliderShootPsn*/),
+                shooter))
         
         
         ;

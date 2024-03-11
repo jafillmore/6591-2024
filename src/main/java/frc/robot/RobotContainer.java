@@ -213,6 +213,12 @@ public class RobotContainer {
         .onTrue(new InstantCommand(
             () -> m_shooter.shoot(ShooterConstants.kBloopSpeed  /*, ShooterConstants.kSliderShootPsn*/),
             m_shooter));
+
+    new JoystickButton(m_buttonboard, OIConstants.kIntakeShooterButton)
+        .onTrue(new InstantCommand(
+            () -> m_shooter.shoot(ShooterConstants.kintakeShooterSpeed  /*, ShooterConstants.kSliderShootPsn*/),
+        m_shooter));
+
     //  park sliders
     new JoystickButton(m_buttonboard, OIConstants.kParkButton)
         .onTrue(new InstantCommand(
