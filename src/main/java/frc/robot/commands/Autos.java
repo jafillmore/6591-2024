@@ -106,44 +106,22 @@ public final class Autos {
         new InstantCommand (
             ()-> shooter.shoot(ShooterConstants.kNearShotSpeed  /*, ShooterConstants.kSliderShootPsn*/),
             shooter)
-       .andThen(new InstantCommand (
-            ()-> intake.zeroFingers(), intake))
         .andThen(new InstantCommand (
-            ()-> intake.setIntake(IntakeConstants.kIntakeSpeed), intake))
+            ()-> intake.setIntake(IntakeConstants.kIntakeSpeed), intake))        
         .andThen(
            red1Trajectory1ControllerCommand)
-        .andThen(new InstantCommand (
+                        .andThen(new InstantCommand (
             () -> intake.setGripper(IntakeConstants.kFingersInAngle), intake))
-        .andThen(new InstantCommand (
+           .andThen(new InstantCommand (
             () -> pneumatics.setArmDown(), pneumatics))
         .andThen(
-            new WaitCommand(1))
+            new WaitCommand(.6))
         .andThen(new InstantCommand (
             () -> intake.setGripper(IntakeConstants.kFingersOutAngle), intake))
-        .andThen(
-            new WaitCommand(3))
         .andThen(new InstantCommand (
             () -> pneumatics.setArmUp(), pneumatics))
         .andThen(
-            new WaitCommand(2))
-        .andThen(new InstantCommand (
-            ()-> shooter.setSlider(ShooterConstants.kSliderLoadPsn),
-            shooter))
-        .andThen(
-            new WaitCommand(12))
-        .andThen(new InstantCommand (
-            () -> intake.setGripper(IntakeConstants.kFingersInAngle), intake))
-        .andThen(new InstantCommand (
-            () -> pneumatics.setArmDown(), pneumatics))
-        .andThen(
-            new WaitCommand(0.75))
-        .andThen(new InstantCommand (
-            () -> pneumatics.setArmUp(), pneumatics))
-            .andThen(
-            new WaitCommand(5))
-        //    .andThen(
-        //    red1Trajectory2ControllerCommand)
-        //.andThen(() -> drive.drive(0, 0, 0, false, false))
+            new WaitCommand(1))
         .andThen(
         new InstantCommand (
             ()-> shooter.shoot(ShooterConstants.kBloopSpeed /* , ShooterConstants.kSliderShootPsn*/),
@@ -176,7 +154,7 @@ public final class Autos {
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
+        new Pose2d(2.5, 0, new Rotation2d(0)),
         config);
 
     var thetaController = new ProfiledPIDController(
@@ -219,9 +197,9 @@ public final class Autos {
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
+        new Pose2d(2.5, 0, new Rotation2d(0)),
         config);
 
     var thetaController = new ProfiledPIDController(
@@ -317,41 +295,23 @@ public final class Autos {
         new InstantCommand (
             ()-> shooter.shoot(ShooterConstants.kNearShotSpeed  /*, ShooterConstants.kSliderShootPsn*/),
             shooter)
-       .andThen(new InstantCommand (
-            ()-> intake.zeroFingers(), intake))
         .andThen(new InstantCommand (
-            ()-> intake.setIntake(IntakeConstants.kIntakeSpeed), intake))
+            ()-> intake.setIntake(IntakeConstants.kIntakeSpeed), intake))        
         .andThen(
            blue1Trajectory1ControllerCommand)
-        .andThen(new InstantCommand (
+                .andThen(new InstantCommand (
             () -> intake.setGripper(IntakeConstants.kFingersInAngle), intake))
-        .andThen(new InstantCommand (
+           .andThen(new InstantCommand (
             () -> pneumatics.setArmDown(), pneumatics))
         .andThen(
-            new WaitCommand(1))
+            new WaitCommand(.6))
         .andThen(new InstantCommand (
             () -> intake.setGripper(IntakeConstants.kFingersOutAngle), intake))
-        .andThen(
-            new WaitCommand(3))
         .andThen(new InstantCommand (
             () -> pneumatics.setArmUp(), pneumatics))
         .andThen(
-            new WaitCommand(2))
-        .andThen(new InstantCommand (
-            ()-> shooter.setSlider(ShooterConstants.kSliderLoadPsn),
-            shooter))
-        .andThen(
-            new WaitCommand(12))
-        .andThen(new InstantCommand (
-            () -> intake.setGripper(IntakeConstants.kFingersInAngle), intake))
-        .andThen(new InstantCommand (
-            () -> pneumatics.setArmDown(), pneumatics))
-        .andThen(
-            new WaitCommand(0.75))
-        .andThen(new InstantCommand (
-            () -> pneumatics.setArmUp(), pneumatics))
-        .andThen(
-            new WaitCommand(5))
+            new WaitCommand(1))
+
         .andThen(
             blue1Trajectory2ControllerCommand)
         .andThen(
@@ -387,9 +347,9 @@ public final class Autos {
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(.25, 0), new Translation2d(.75, 0)),
+        List.of(new Translation2d(1.0, 0), new Translation2d(2.0, 0)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(2.0, 0, new Rotation2d(0)),
+        new Pose2d(2.5, 0, new Rotation2d(0)),
         config);
 
     var thetaController = new ProfiledPIDController(
@@ -432,9 +392,9 @@ public final class Autos {
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
+        new Pose2d(2.5, 0, new Rotation2d(0)),
         config);
 
     var thetaController = new ProfiledPIDController(
@@ -458,26 +418,29 @@ public final class Autos {
 
     // Run path following command, then stop at the end.
     return blue3Trajectory1ControllerCommand.andThen(() -> drive.drive(0, 0, 0, false, false));
-  }
+    }
 
 
-String trajectoryJSON = "\"C:\\Users\\Joel\\Documents\\FRC\\2024\\Code\\PathWeaver\\output\\output\\Unnamed.wpilib.json\"";
-Trajectory trajectory = new Trajectory();
+    //String trajectoryJSON = "\"C:\\Users\\Joel\\Documents\\FRC\\2024\\Code\\PathWeaver\\output\\output\\Unnamed.wpilib.json\"";
+    //Trajectory trajectory = new Trajectory();
 
 
-public void robotInit() {
-   try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-   } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-   }
-}
+    public void robotInit() {
+    /*   
+        try {
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException ex) {
+        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+    }
+
+    */
+    }
 
 
 
 
-  private Autos() {
-    throw new UnsupportedOperationException("This is a utility class!");
-  }
+    private Autos() {
+        throw new UnsupportedOperationException("This is a utility class!");
+    }
 }

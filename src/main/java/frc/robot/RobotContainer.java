@@ -34,6 +34,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.Shootersubsystem;
+import com.revrobotics.ColorMatch;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -75,18 +76,26 @@ public class RobotContainer {
     private final Command m_blueAuto2 = Autos.blueAuto2(m_robotDrive);
     private final Command m_blueAuto3 = Autos.blueAuto3(m_robotDrive);
 
+ 
     
   /**
   * The container for the robot. Contains subsystems, OI devices, and commands.
   */
   public RobotContainer() {
     
+ 
+
+
     camera1 = CameraServer.startAutomaticCapture(0);
     camera2 = CameraServer.startAutomaticCapture(1);
     server = CameraServer.getServer();
     
     // Run configuration options for Pigeon 2 navigation module
     m_robotDrive.pidgeyConfig();
+
+    
+
+
         
     
     // Configure the button bindings
@@ -188,6 +197,30 @@ public class RobotContainer {
         .onTrue(new InstantCommand(
             () -> m_pneumatics.setArmUp(),
             m_pneumatics));
+
+    new JoystickButton(m_buttonboard, OIConstants.kOrangeUpButton)
+        .onTrue(new InstantCommand(
+            () -> m_pneumatics.setOrangeUp(),
+            m_pneumatics));
+
+     new JoystickButton(m_buttonboard, OIConstants.kOrangeDownButton)
+        .onTrue(new InstantCommand(
+            () -> m_pneumatics.setOrangeDown(),
+            m_pneumatics));   
+
+    new JoystickButton(m_buttonboard, OIConstants.kBlackUpButton)
+        .onTrue(new InstantCommand(
+            () -> m_pneumatics.setBlackUp(),
+            m_pneumatics));
+
+     new JoystickButton(m_buttonboard, OIConstants.kBlackDownButton)
+        .onTrue(new InstantCommand(
+            () -> m_pneumatics.setBlackDown(),
+            m_pneumatics)); 
+
+
+
+
     
     new JoystickButton(m_buttonboard, OIConstants.kFingersOutButton)
         .onTrue(new InstantCommand(
@@ -248,11 +281,9 @@ public class RobotContainer {
 
     new JoystickButton(m_buttonboard, OIConstants.kGrabButton)
         .onTrue(
-                new InstantCommand(
-                    () -> m_intake.zeroFingers(),
+            new InstantCommand(
+                () -> m_intake.setIntake(IntakeConstants.kIntakeSpeed),
                     m_intake)
-            .andThen(
-                new WaitCommand(.25))
             .andThen(
                 new InstantCommand(
                     () -> m_intake.setGripper(IntakeConstants.kFingersInAngle),
@@ -262,15 +293,16 @@ public class RobotContainer {
                     () -> m_pneumatics.setArmDown(),
                     m_pneumatics))
             .andThen(
+                new WaitCommand(.6))
+            .andThen(
                 new InstantCommand(
                     () -> m_intake.setGripper(IntakeConstants.kFingersOutAngle),
                     m_intake))
-            .andThen(
-                new WaitCommand(1))
             .andThen(new InstantCommand(
                     () -> m_pneumatics.setArmUp(),
                     m_pneumatics))
-            );
+            
+        );
 
          
     

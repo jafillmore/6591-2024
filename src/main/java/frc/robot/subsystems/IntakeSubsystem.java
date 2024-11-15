@@ -13,6 +13,7 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 
 
@@ -90,6 +91,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber(   "Gripper Actual Angle", m_gripperEncoder.getPosition());
     SmartDashboard.putNumber(   "Gripper Zero Offset", m_gripperEncoder.getZeroOffset());
+    
   }
 
   public void setIntake (double intakePower) {
@@ -101,13 +103,25 @@ public class IntakeSubsystem extends SubsystemBase {
       };
 
   public void setGripper (double gripperAngle) {
-        m_gripperPIDController.setReference(gripperAngle, CANSparkMax.ControlType.kPosition);
-        SmartDashboard.putNumber(   "Gripper Target Angle", gripperAngle);
+        //m_gripperPIDController.setReference(gripperAngle, CANSparkMax.ControlType.kPosition);
+        //SmartDashboard.putNumber(   "Gripper Target Angle", gripperAngle);
+
+        if (gripperAngle == 180) {
+          m_gripperSparkMax.set(2.0);
+          Timer.delay(1.0);
+          m_gripperSparkMax.set(0.0);
+        }
+        else
+        if (gripperAngle == 90) {
+          m_gripperSparkMax.set(-1.0);
+          Timer.delay(.5);
+          m_gripperSparkMax.set(0.0);
+        }
         
   }
   public void zeroFingers(){
     m_gripperEncoder.setZeroOffset(0.0);
-    m_gripperSparkMax.set(0.75);
+    m_gripperSparkMax.set(1.0);
     Timer.delay(.5);
     m_gripperSparkMax.set(-0.75);
     Timer.delay(2);
@@ -125,14 +139,5 @@ public class IntakeSubsystem extends SubsystemBase {
     m_gripperSparkMax.set(0.0);
   }
 
-  /*
-  public void grab(){
-        m_gripperPIDController.setReference(0, CANSparkMax.ControlType.kPosition);
-  }
-
-  public void drop(){
-        m_gripperPIDController.setReference(89, CANSparkMax.ControlType.kPosition);
-  }
-  */
 }
 

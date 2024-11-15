@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.util.Color;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -71,6 +72,10 @@ public final class Constants {
   }
 
   public static final class PneumaticsConstants {
+    public static final int kOrangeUp = 4;
+    public static final int kOrangeDown = 3; 
+    public static final int kBlackUp = 5;
+    public static final int kBlackDown = 2;
     public static final int kArmSolenoidUp = 7;
     public static final int kArmSolenoidDown = 0; 
     public static final double kCylinderDelay = 1000;
@@ -152,9 +157,9 @@ public final class Constants {
     public static final IdleMode kGripperMode = IdleMode.kBrake;
     public static final boolean kGripperIsReversed = false;
 
-    public static final double kGripperP =0.9;
-    public static final double kGripperI = 1.0e-5;
-    public static final double kGripperD = 1.0e0-4; 
+    public static final double kGripperP =10;
+    public static final double kGripperI = 0.0;
+    public static final double kGripperD = 0.0; 
     public static final double kGripperFF = 15;  // Consider adding Feed-Forward to help hold the notes in place
     public static final double kGripperMinOutput = -1.0;
     public static final double kGripperMaxOutput = 1.0;
@@ -162,8 +167,8 @@ public final class Constants {
     public static final double kGripperEncoderPositionFactor = 360.0;  // 360 deg
     public static final double kGripperEncoderVelocityFactor = 60.0;  //  deg/sec
 
-    public static final double kFingersOutAngle = 183; //Angle for the rotating plate
-    public static final double kFingersInAngle = 90.40;  //Angle for the rotating plate
+    public static final double kFingersOutAngle = 180; //Angle for the rotating plate
+    public static final double kFingersInAngle = 90;  //Angle for the rotating plate
     public static final double kFingerDelayTimer = 3000; 
 
   }
@@ -174,8 +179,8 @@ public final class Constants {
 
     public static final double kNearShotSpeed = 0.7;
     public static final double kFarShotSpeed = 1.0;
-    public static final double kBloopSpeed = 0.31;
-    public static final double kintakeShooterSpeed = -0.35;
+    public static final double kBloopSpeed = 0.50;
+    public static final double kintakeShooterSpeed = -0.5;
 
     public static final IdleMode kShooterMode = IdleMode.kCoast;
     public static final IdleMode kSliderMode = IdleMode.kBrake;
@@ -183,9 +188,9 @@ public final class Constants {
     public static final boolean kSliderIsReversed = false;
     
     public static final double kSliderP =0.70;
-    public static final double kSliderI = 1.0e-5;
-    public static final double kSliderD = 1.0e0-3; 
-    public static final double kSliderFF = 0;
+    public static final double kSliderI = 2.0e-5;
+    public static final double kSliderD = 6.0e0-3; 
+    public static final double kSliderFF = 0.0;
     public static final double kSliderMinOutput = -0.12;
     public static final double kSliderMaxOutput = 0.12;
  
@@ -194,8 +199,18 @@ public final class Constants {
 
     public static final double kSliderShootPsn = 0; //position for slider
     public static final double kSliderParkPsn = -7000;  //position for slider
-    public static final double kSliderLoadPsn = -34550; // position for loading slider
+    public static final double kSliderLoadPsn = -32000; // position for loading slider
     //public static final double kFingerDelayTimer = 3000; 
+
+    /**
+     * Note: Any example colors should be calibrated as the user needs, these
+     * are here as a basic example.
+     */
+    public static final Color kBlueTarget = new Color(0.171, 0.373, 0.456);
+    public static final Color kGreenTarget = new Color(0.197, 0.561, 0.240);
+    public static final Color kRedTarget = new Color(0.561, 0.232, 0.114);
+    public static final Color kYellowTarget = new Color(0.361, 0.524, 0.113);
+
 
 
   }
@@ -245,20 +260,29 @@ public final class Constants {
 
     // Button Board Buttons
     public static final int kArmUpButton = 1;
-    public static final int kArmDownButton = 2;
-    public static final int kFingersOutButton = 3;
-    public static final int kFingersInButton = 4;
-    public static final int kGrabButton = 6;
-    public static final int kDropButton = 7;
-    public static final int kFarShotButton = 11;
-    public static final int kbloopButton = 12;
-    public static final int kParkButton = 13;
-    public static final int kLoadButton = 15;
-    public static final int kFingerResetButton = 16;
-    public static final int kSliderResetButton = 14;
+    public static final int kFingersInButton = 2;
+    public static final int kFingerResetButton = 3;
+    public static final int kOrangeUpButton = 4;
+    public static final int kBlackUpButton = 5;
+    public static final int kArmDownButton = 6;
+    public static final int kFingersOutButton = 7;
+    public static final int kGrabButton = 8;
+    public static final int kOrangeDownButton = 9;
+    public static final int kBlackDownButton = 10;
+    public static final int kLoadButton = 11;
+    public static final int kParkButton = 12;
+    public static final int kSliderResetButton = 13;
+    //public static final int Unused = 14:
+    public static final int kIntakeShooterButton = 15;
+    //public static final int Unused = 16:
+    public static final int kFarShotButton = 17;
+    public static final int kbloopButton = 18;
+    public static final int kStopIntakeButton = 19; 
     public static final int kStopShooterButton = 20;
-    public static final int kStopIntakeButton = 19;
-    public static final int kIntakeShooterButton = 17;
+    
+    
+    
+    
 
 
 

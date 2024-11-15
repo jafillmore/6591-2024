@@ -38,7 +38,8 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   // Joel's comments:  updated wiring on practace 'bot to be the same as 'real' 'bot
     public DoubleSolenoid m_armSolenoid =   new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PneumaticsConstants.kArmSolenoidDown, PneumaticsConstants.kArmSolenoidUp);
-
+    public DoubleSolenoid m_blackSolenoid =   new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PneumaticsConstants.kBlackDown, PneumaticsConstants.kBlackUp);
+    public DoubleSolenoid m_orangeSolenoid =   new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PneumaticsConstants.kOrangeDown, PneumaticsConstants.kOrangeUp);
 
 
   // Joel's comment:  Adding this section is what allows us to call the PneumaticSubsystem from other parts of the code
@@ -75,7 +76,25 @@ public class PneumaticSubsystem extends SubsystemBase {
     m_armSolenoid.set(DoubleSolenoid.Value.kReverse
     );
   }
+  public void setOrangeUp () {
+    m_orangeSolenoid.set(DoubleSolenoid.Value.kForward
+    );
+  }
 
+  public void setOrangeDown () {
+    m_orangeSolenoid.set(DoubleSolenoid.Value.kReverse
+    );
+  }
+
+  public void setBlackDown () {
+    m_blackSolenoid.set(DoubleSolenoid.Value.kReverse
+    );
+  }
+
+  public void setBlackUp () {
+    m_blackSolenoid.set(DoubleSolenoid.Value.kForward
+    );
+  }
   
     // External analog pressure sensor
     // product-specific voltage->pressure conversion, see product manual
@@ -88,7 +107,7 @@ public class PneumaticSubsystem extends SubsystemBase {
 
           // Get the pressure (in PSI) from an analog pressure sensor connected to the RIO.
           //return m_pressureTransducer.get();
-
+  
 
 }
 
