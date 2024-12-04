@@ -260,7 +260,7 @@ public class RobotContainer {
     //  load sliders
     new JoystickButton(m_buttonboard, OIConstants.kLoadButton)
         .onTrue(new InstantCommand(
-            () -> m_shooter.setSlider(ShooterConstants.kSliderLoadPsn),
+            () -> m_shooter.downSlider()/*m_shooter.setSlider(ShooterConstants.kSliderLoadPsn )*/,
             m_shooter));
 
     new JoystickButton(m_buttonboard, OIConstants.kSliderResetButton)

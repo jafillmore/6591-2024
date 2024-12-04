@@ -206,9 +206,9 @@ public final class Constants {
      * Note: Any example colors should be calibrated as the user needs, these
      * are here as a basic example.
      */
-    public static final Color kBlueTarget = new Color(0.171, 0.373, 0.456);
+    public static final Color kBlueTarget = new Color(0.157, 0.358, 0.484);
     public static final Color kGreenTarget = new Color(0.197, 0.561, 0.240);
-    public static final Color kRedTarget = new Color(0.561, 0.232, 0.114);
+    public static final Color kRedTarget = new Color(0.463, 0.377, 0.159);
     public static final Color kYellowTarget = new Color(0.361, 0.524, 0.113);
 
 
