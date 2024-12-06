@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
@@ -51,11 +52,10 @@ public class Shootersubsystem extends SubsystemBase {
    * with given confidence range.
    */
   private final ColorMatch m_colorMatcher = new ColorMatch();
-  Color detectedColor = m_colorSensor.getColor();
-  
-  
-  String colorString;
-  String positionString = "Don't Know";
+  private static Color detectedColor;
+  private static String colorString;
+  private static String positionString = "Don't Know";
+  private static ColorMatchResult match;
   
 
   public Shootersubsystem() {
@@ -101,7 +101,79 @@ public class Shootersubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-   /**
+   
+    bestmatch();
+    
+
+
+
+  }
+  public void setSlider (double sliderPosition) {
+    m_sliderPIDController.setReference(sliderPosition, CANSparkMax.ControlType.kPosition);
+    SmartDashboard.putNumber(   "Slider Position", sliderPosition);
+  };
+
+  public void shoot(double shooterPower  /*, double sliderPosition*/) {
+    m_ShooterSparkMax.set(shooterPower);
+    //m_sliderPIDController.setReference(sliderPosition, CANSparkMax.ControlType.kPosition);
+    //SmartDashboard.putNumber(   "Slider Position", sliderPosition);
+    zeroSlider();
+    //Timer.delay(10);
+    //m_sliderPIDController.setReference(ShooterConstants.kSliderParkPsn, CANSparkMax.ControlType.kPosition);
+  }
+  
+  public void zeroSlider(){
+    /* 
+    while (true) {   
+      m_SliderSparkMax.set(0.05);
+      positionString = "Going Up";
+      bestmatch();
+  
+     
+      if (match.color == Constants.ShooterConstants.kRedTarget) { 
+        m_SliderSparkMax.set(0.0);
+        m_sliderEncoder.setPosition(0);
+        positionString = "At Zero";
+        break;
+      } 
+    }
+    */
+    m_SliderSparkMax.set(0.075);
+
+    Timer.delay(5);
+       
+    m_SliderSparkMax.set(0.0);
+    m_sliderEncoder.setPosition(0);
+  }
+  
+public void downSlider(){
+    
+    m_SliderSparkMax.set(-0.05);
+    
+    // Loop while enabled until color is matched
+    while (RobotState.isEnabled()) {
+      positionString = "Going Down";
+      if (match.color == Constants.ShooterConstants.kBlueTarget) { 
+        m_SliderSparkMax.set(0.0);
+        colorString = "Is down";
+        break;
+      }
+    }
+
+    m_SliderSparkMax.set(0.0);
+
+  }
+
+
+
+
+  public void shooterStop(){
+    m_SliderSparkMax.set(0.0);
+    m_ShooterSparkMax.set(0.0);
+  }
+
+  public void bestmatch(){
+    /**
      * The method GetColor() returns a normalized color value from the sensor and can be
      * useful if outputting the color to an RGB LED or similar. To
      * read the raw color, use GetRawColor().
@@ -111,8 +183,8 @@ public class Shootersubsystem extends SubsystemBase {
      * an object is the more light from the surroundings will bleed into the 
      * measurements and make it difficult to accurately determine its color.
      */
-    Color detectedColor = m_colorSensor.getColor();
-    ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+    detectedColor = m_colorSensor.getColor();
+    match = m_colorMatcher.matchClosestColor(detectedColor);
 
 
     /**
@@ -146,99 +218,10 @@ public class Shootersubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
     SmartDashboard.putString("Position", positionString);
-    
-
-
-    /**
-     * In addition to RGB IR values, the color sensor can also return an 
-     * infrared proximity value. The chip contains an IR led which will emit
-     * IR pulses and measure the intensity of the return. When an object is 
-     * close the value of the proximity will be large (max 2047 with default
-     * settings) and will approach zero when the object is far away.
-     * 
-     * Proximity can be used to roughly approximate the distance of an object
-     * or provide a threshold for when an object is close enough to provide
-     * accurate color values.
-     */
-    int proximity = m_colorSensor.getProximity();
-
-    SmartDashboard.putNumber("Proximity", proximity);
-
-  }
-  public void setSlider (double sliderPosition) {
-    m_sliderPIDController.setReference(sliderPosition, CANSparkMax.ControlType.kPosition);
-    SmartDashboard.putNumber(   "Slider Position", sliderPosition);
-  };
-
-  public void shoot(double shooterPower  /*, double sliderPosition*/) {
-    m_ShooterSparkMax.set(shooterPower);
-    //m_sliderPIDController.setReference(sliderPosition, CANSparkMax.ControlType.kPosition);
-    //SmartDashboard.putNumber(   "Slider Position", sliderPosition);
-    zeroSlider();
-    //Timer.delay(10);
-    //m_sliderPIDController.setReference(ShooterConstants.kSliderParkPsn, CANSparkMax.ControlType.kPosition);
-  }
-  public void zeroSlider(){
-    
-    m_SliderSparkMax.set(0.05);
-    
-    // Infinite while loop until color is matched
-    while (true) {
-    SmartDashboard.putNumber("Red", detectedColor.red);
-    SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
-    //SmartDashboard.putNumber("IR", IR);
-    //SmartDashboard.putNumber("Confidence", match.confidence);
-    SmartDashboard.putString("Detected Color", colorString);
-    SmartDashboard.putString("Position", positionString);
-      positionString = "Going Up";
-      //ColorMatchResult matched = m_colorMatcher.matchClosestColor(detectedColor);
-      if (RobotState.isDisabled() == true) {
-        m_SliderSparkMax.set(0.0);
-        break;
-      } 
-      if (colorString == "Red"
-        /*matched.color == Constants.ShooterConstants.kRedTarget*/) { 
-        m_SliderSparkMax.set(0.0);
-        m_sliderEncoder.setPosition(0);
-        positionString = "At Zero";
-        break;
-      } 
-    }
-  }
-  
-public void downSlider(){
-    
-    m_SliderSparkMax.set(-0.05);
-    /**
-     * Run the color match algorithm on our detected color
-    */
-    
-    // Infinite while loop until color is matched
-    while (true) {
-      ColorMatchResult matched = m_colorMatcher.matchClosestColor(detectedColor);
-      if (RobotState.isDisabled() == true) {
-        m_SliderSparkMax.set(0.0);
-        break;
-      } 
-
-      if (matched.color == Constants.ShooterConstants.kBlueTarget) { 
-        m_SliderSparkMax.set(0.0);
-        m_sliderEncoder.setPosition( 0);
-        colorString = "is down";
-        break;
-      } else {
-          colorString = "Going down";
-        }
-    }
+    SmartDashboard.putBoolean("Is Enabled", RobotState.isEnabled());
+    SmartDashboard.putBoolean("Is Disabled", RobotState.isDisabled());
   }
 
 
-
-
-  public void shooterStop(){
-    m_SliderSparkMax.set(0.0);
-    m_ShooterSparkMax.set(0.0);
-  }
 
 }

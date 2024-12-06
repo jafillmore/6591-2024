@@ -218,9 +218,6 @@ public class RobotContainer {
             () -> m_pneumatics.setBlackDown(),
             m_pneumatics)); 
 
-
-
-
     
     new JoystickButton(m_buttonboard, OIConstants.kFingersOutButton)
         .onTrue(new InstantCommand(
@@ -260,7 +257,7 @@ public class RobotContainer {
     //  load sliders
     new JoystickButton(m_buttonboard, OIConstants.kLoadButton)
         .onTrue(new InstantCommand(
-            () -> m_shooter.downSlider()/*m_shooter.setSlider(ShooterConstants.kSliderLoadPsn )*/,
+            () -> m_shooter.setSlider(ShooterConstants.kSliderLoadPsn),
             m_shooter));
 
     new JoystickButton(m_buttonboard, OIConstants.kSliderResetButton)
