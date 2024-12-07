@@ -138,7 +138,7 @@ public class Shootersubsystem extends SubsystemBase {
       } 
     }
     */
-    m_SliderSparkMax.set(0.075);
+    m_SliderSparkMax.set(0.15);
 
     Timer.delay(5);
        

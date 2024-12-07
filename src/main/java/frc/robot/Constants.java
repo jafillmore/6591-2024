@@ -199,7 +199,7 @@ public final class Constants {
 
     public static final double kSliderShootPsn = 0; //position for slider
     public static final double kSliderParkPsn = -7000;  //position for slider
-    public static final double kSliderLoadPsn = -32000; // position for loading slider
+    public static final double kSliderLoadPsn = -40000; // position for loading slider
     //public static final double kFingerDelayTimer = 3000; 
 
     /**
